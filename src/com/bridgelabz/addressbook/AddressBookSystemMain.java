@@ -27,6 +27,8 @@ public class AddressBookSystemMain {
                 case 4:
                     details.display();
                     break;
+                case 5:
+                    details.createAddressBook();
                 default:
                     choice = 0;
             }
