@@ -22,6 +22,9 @@ public class AddressBookSystemMain {
                     details.editDetails();
                     break;
                 case 3:
+                    details.deleteDetails();
+                    break;
+                case 4:
                     details.display();
                     break;
                 default:
