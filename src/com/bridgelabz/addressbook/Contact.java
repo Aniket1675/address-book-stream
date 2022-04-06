@@ -5,7 +5,7 @@ public class Contact {
     private long phoneNumber;
 
     //Used constructor to store parameters
-    public Contact (String firstName, String lastName, String address, String city, String state, String emailId, int zip, long phoneNumber){
+    public Contact(String firstName, String lastName, String address, String city, String state, String emailId, int zip, long phoneNumber){
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
