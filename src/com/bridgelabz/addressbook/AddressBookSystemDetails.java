@@ -1,6 +1,7 @@
 package com.bridgelabz.addressbook;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /*********************************************************************
@@ -14,10 +15,12 @@ import java.util.stream.Collectors;
 
 public class AddressBookSystemDetails {
 
-    public ArrayList<Contact> contactList = new ArrayList<>();
+    public static ArrayList<Contact> contactList = new ArrayList<>();
     public static Map<String, Contact> nameHashMap = new HashMap<String, Contact>();
     public static Map<String, Contact> cityHashMap = new HashMap<String, Contact>();
     public static Map<String, Contact> stateHashMap = new HashMap<String, Contact>();
+    static Scanner sc = new Scanner(System.in);
+    static AddressBookSystemMain addressBook = new AddressBookSystemMain();
 
     public boolean addContact(Contact contact) {
         List<Contact> checkByName = searchByName(contact.getFirstName());
@@ -28,12 +31,9 @@ public class AddressBookSystemDetails {
         return true;
     }
 
-     /*
-     *method for search contact by name
-     *collection list of element
-     *stream and lambda for find filter given name from arraylist
-     */
-    public List<Contact> searchByName(String name) {
+    // method for search contact by name
+    public List<Contact> searchByName(String name) {// collection list of element
+        // stream and lambda for find filter given name from arraylist
         return contactList.stream().filter(person -> person.getFirstName().equalsIgnoreCase(name))
                 .collect(Collectors.toList());
     }
@@ -48,9 +48,7 @@ public class AddressBookSystemDetails {
                 .collect(Collectors.toList());
     }
 
-    /*
-     Method to view person
-     */
+    // Method to view person
     public static void viewByName(Map<String, Contact> nameHashMap) {
         nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
     }
@@ -62,11 +60,15 @@ public class AddressBookSystemDetails {
     public static void viewByState(Map<String, Contact> stateHashMap) {
         stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
     }
+    public static List<Contact> sortBy(Function<? super Contact, ? extends String> key) {
+        return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
+    }
 
+    public List<Contact> sortByZip(Function<? super Contact, ? extends Long> key) {
+        return contactList.stream().sorted(Comparator.comparing(key)).collect(Collectors.toList());
+    }
 
-    /*
-     method for edit contact
-     */
+    // method for edit contact
     public boolean editContact(Contact current, Contact edit) {
         if (!contactList.contains(current))
             return false;
@@ -75,17 +77,13 @@ public class AddressBookSystemDetails {
         return true;
     }
 
-    /*
-     method for delete contact
-     */
+    // method for delete contact
     public boolean deleteContact(Contact contacts) {
         contactList.remove(contacts);
         return true;
     }
 
-    /*
-     for showing output details
-     */
+    // for showing output details
     @Override
     public String toString() {
         if (contactList.isEmpty())
@@ -97,9 +95,7 @@ public class AddressBookSystemDetails {
         return result;
     }
 
-    /*
-    method for adding details
-     */
+    // method for adding details
     public static Contact readContact() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter First Name: ");
@@ -248,12 +244,9 @@ public class AddressBookSystemDetails {
                 return;
             default:
                 System.out.println("INVALID CHOICE!");
-
         }
     }
-    /*
-    method to count element by option
-     */
+    //method to count element by option
     public void countByOption() {
         Scanner sc = new Scanner(System.in);
         System.out.println("1. Count City ");
@@ -277,6 +270,36 @@ public class AddressBookSystemDetails {
                 return;
             default:
                 System.out.println("Invalid Option");
+        }
+    }
+    public static void sortByOption() {
+        System.out.println("1. By first name");
+        System.out.println("2. By last name");
+        System.out.println("3. By city");
+        System.out.println("4. By state");
+        System.out.println("5. By zip");
+        System.out.println("6. Back");
+        System.out.print("Your choice: ");
+
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                AddressBookSystemDetails.sortBy(Contact::getFirstName).forEach(System.out::println);
+                break;
+            case 2:
+                AddressBookSystemDetails.sortBy(Contact::getLastName).forEach(System.out::println);
+                break;
+            case 3:
+                AddressBookSystemDetails.sortBy(Contact::getCity).forEach(System.out::println);
+                break;
+            case 4:
+                AddressBookSystemDetails.sortBy(Contact::getState).forEach(System.out::println);
+                break;
+            case 5:
+                return;
+            default:
+                System.out.println("INVALID CHOICE!");
         }
     }
 }
