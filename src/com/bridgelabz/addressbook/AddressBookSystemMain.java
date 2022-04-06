@@ -7,8 +7,6 @@ public class AddressBookSystemMain {
     public static void main(String[] args) {
         System.out.println("Welcome to address book system using collection");
         Scanner sc = new Scanner(System.in);
-
-
         AddressBookSystemDetails addressBook = new AddressBookSystemDetails();
         Map<String, AddressBookSystemDetails> addressBookMap = new HashMap<String, AddressBookSystemDetails>();
 

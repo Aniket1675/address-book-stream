@@ -1,8 +1,6 @@
 package com.bridgelabz.addressbook;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /*********************************************************************
@@ -17,6 +15,9 @@ import java.util.stream.Collectors;
 public class AddressBookSystemDetails {
 
     public ArrayList<Contact> contactList = new ArrayList<>();
+    public static Map<String, Contact> nameHashMap = new HashMap<String, Contact>();
+    public static Map<String, Contact> cityHashMap = new HashMap<String, Contact>();
+    public static Map<String, Contact> stateHashMap = new HashMap<String, Contact>();
 
     public boolean addContact(Contact contact) {
         List<Contact> checkByName = searchByName(contact.getFirstName());
@@ -27,10 +28,10 @@ public class AddressBookSystemDetails {
         return true;
     }
 
-    /*
-    * method for search contact by name
-    * collection list of element
-    * stream and lambda for find filter given name from arraylist
+     /*
+     *method for search contact by name
+     *collection list of element
+     *stream and lambda for find filter given name from arraylist
      */
     public List<Contact> searchByName(String name) {
         return contactList.stream().filter(person -> person.getFirstName().equalsIgnoreCase(name))
@@ -48,6 +49,22 @@ public class AddressBookSystemDetails {
     }
 
     /*
+     Method to view person
+     */
+    public static void viewByName(Map<String, Contact> nameHashMap) {
+        nameHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    public static void viewByCity(Map<String, Contact> cityHashMap) {
+        cityHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+    public static void viewByState(Map<String, Contact> stateHashMap) {
+        stateHashMap.entrySet().stream().forEach(e -> System.out.println(e.getKey() + "=" + e.getValue().toString()));
+    }
+
+
+    /*
      method for edit contact
      */
     public boolean editContact(Contact current, Contact edit) {
@@ -59,15 +76,15 @@ public class AddressBookSystemDetails {
     }
 
     /*
-    method for delete contact
+     method for delete contact
      */
-    public boolean deleteContact(Contact contact) {
-        contactList.remove(contact);
+    public boolean deleteContact(Contact contacts) {
+        contactList.remove(contacts);
         return true;
     }
 
     /*
-    for showing output details
+     for showing output details
      */
     @Override
     public String toString() {
@@ -81,7 +98,7 @@ public class AddressBookSystemDetails {
     }
 
     /*
-     method for adding details
+    method for adding details
      */
     public static Contact readContact() {
         Scanner sc = new Scanner(System.in);
@@ -107,9 +124,7 @@ public class AddressBookSystemDetails {
         return new Contact(firstName, lastName, address, city, state, email, zip, phoneNumber);
     }
 
-    /*
-     method for show option for contacts
-     */
+    // method for show option for contacts
     public static void addressBookOptions(AddressBookSystemDetails addressBook) {
         Scanner sc = new Scanner(System.in);
         while (true) {
@@ -207,6 +222,33 @@ public class AddressBookSystemDetails {
                 return;
             default:
                 System.out.println("INVALID CHOICE!");
+        }
+    }
+    // method for view element by option
+    public static void viewByOption(Map<String, AddressBookSystemDetails> addressBookMap) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("1. View By name");
+        System.out.println("2. View By city");
+        System.out.println("3. View By state");
+        System.out.println("4. Back");
+        System.out.print("Enter Your choice: ");
+        int choice = sc.nextInt();
+        sc.nextLine();
+        switch (choice) {
+            case 1:
+                viewByName(nameHashMap);
+                break;
+            case 2:
+                viewByCity(cityHashMap);
+                break;
+            case 3:
+                viewByState(stateHashMap);
+                break;
+            case 4:
+                return;
+            default:
+                System.out.println("INVALID CHOICE!");
+
         }
     }
 }
